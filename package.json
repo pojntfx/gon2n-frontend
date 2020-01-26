@@ -1,0 +1,29 @@
+{
+  "name": "@pojntfx/gon2n-frontend",
+  "version": "0.0.1-alpha1",
+  "description": "React frontend for @pojntfx/gon2n.",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pojntfx/gon2n-frontend.git"
+  },
+  "author": "Felix Pojtinger <felix@pojtinger.com>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/pojntfx/gon2n-frontend/issues"
+  },
+  "homepage": "https://github.com/pojntfx/gon2n-frontend#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "parcel": "^2.0.0-alpha.3.2"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}

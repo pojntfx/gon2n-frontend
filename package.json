@@ -3,8 +3,9 @@
   "version": "0.0.1-alpha1",
   "description": "React frontend for @pojntfx/gon2n.",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "dev": "npm run generate && parcel src/index.html",
+    "build": "npm run generate && parcel build src/index.html",
+    "generate": "mkdir -p src/proto/generated && protoc -I=src/proto index.proto edge.proto supernode.proto --js_out=import_style=commonjs:src/proto/generated --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:src/proto/generated",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,10 @@
     "parcel": "^2.0.0-alpha.3.2"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "@emotion/styled": "^10.0.27",
+    "google-protobuf": "^3.11.2",
+    "grpc-web": "^1.0.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "semantic-ui-css": "^2.4.1",

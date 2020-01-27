@@ -96,7 +96,10 @@ const Supernode = ({
       sx={{
         display: "flex",
         position: "absolute",
-        right: 2,
+        right: 0,
+        top: 0,
+        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 0,
         background: "red"
       }}
     >

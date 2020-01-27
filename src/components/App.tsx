@@ -9,7 +9,7 @@ import { Error } from "grpc-web";
 import { Heading, Card, Text, Flex, Box, Button } from "rebass";
 import { FaAssistiveListeningSystems } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdRefresh } from "react-icons/md";
 
 export default ({ endpoint }: { endpoint: string }) => {
   const client = new SupernodeManagerClient(endpoint);
@@ -20,7 +20,13 @@ export default ({ endpoint }: { endpoint: string }) => {
     const request = new SupernodeManagerListArgs();
 
     client.list(request, {}, (err, res) =>
-      err ? setError(err) : setSupernodes(res.getSupernodesmanagedList())
+      err
+        ? setError(err)
+        : setSupernodes(
+            res
+              .getSupernodesmanagedList()
+              .sort((a, b) => a.getListenport() - b.getListenport())
+          )
     );
   };
 
@@ -28,9 +34,24 @@ export default ({ endpoint }: { endpoint: string }) => {
 
   return (
     <>
-      {error && <Card>Error: {error}</Card>}
+      {error && (
+        <Card
+          sx={{
+            borderRadius: 4
+          }}
+        >
+          Error: {error}
+        </Card>
+      )}
 
-      <Heading sx={{ my: 3 }}>Supernodes</Heading>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Heading sx={{ my: 3 }}>Supernodes</Heading>
+        <Button onClick={refetch}>
+          <Flex alignItems="center" sx={{ minHeight: 24 }}>
+            <MdRefresh />
+          </Flex>
+        </Button>
+      </Flex>
 
       {supernodes &&
         supernodes.map((supernode, index) => (
@@ -63,19 +84,25 @@ const Supernode = ({
   onDelete: () => any;
 }) => (
   <Card
-    {...otherProps}
     sx={{
       position: "relative",
-      "&:last-child": {
-        mt: 3
-      }
+      mb: 3,
+      borderRadius: 4
     }}
+    {...otherProps}
   >
     <Button
       onClick={onDelete}
-      sx={{ position: "absolute", right: 2, background: "red" }}
+      sx={{
+        display: "flex",
+        position: "absolute",
+        right: 2,
+        background: "red"
+      }}
     >
-      <MdDelete />
+      <Flex alignItems="center" sx={{ minHeight: 24 }}>
+        <MdDelete />
+      </Flex>
     </Button>
     <Box
       sx={{

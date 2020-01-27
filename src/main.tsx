@@ -14,7 +14,7 @@ ReactDOM.render(
         px: 3
       }}
     >
-      <App endpoint="http://localhost:8080" />
+      <App endpoint="http://192.168.178.87:8080" />
     </Box>
   </ThemeProvider>,
   document.getElementById("root")

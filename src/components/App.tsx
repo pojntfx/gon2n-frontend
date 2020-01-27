@@ -2,8 +2,6 @@ import * as React from "react";
 import {
   Container as ContainerTemplate,
   Segment,
-  Statistic,
-  Grid,
   Header
 } from "semantic-ui-react";
 import { SupernodeManagerClient } from "../proto/generated/supernode_grpc_web_pb";
@@ -13,6 +11,7 @@ import {
 } from "../proto/generated/supernode_pb";
 import { Error } from "grpc-web";
 import styled from "@emotion/styled";
+import Supernode from "./Supernode";
 
 const Container = styled(ContainerTemplate)`
   padding-top: 1rem !important;
@@ -47,28 +46,12 @@ export default ({ endpoint }: { endpoint: string }) => {
       )}
       {supernodes &&
         supernodes.map((supernode, index) => (
-          <Segment key={index}>
-            <Grid columns={2} stackable>
-              <Grid.Row>
-                <Grid.Column textAlign="center">
-                  <Statistic>
-                    <Statistic.Value>
-                      {supernode.getListenport()}
-                    </Statistic.Value>
-                    <Statistic.Label>Listen Port</Statistic.Label>
-                  </Statistic>
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Statistic>
-                    <Statistic.Value>
-                      {supernode.getManagementport()}
-                    </Statistic.Value>
-                    <Statistic.Label>Management Port</Statistic.Label>
-                  </Statistic>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
+          <Supernode
+            id={supernode.getId()}
+            listenPort={supernode.getListenport()}
+            managementPort={supernode.getManagementport()}
+            key={index}
+          />
         ))}
     </Container>
   );

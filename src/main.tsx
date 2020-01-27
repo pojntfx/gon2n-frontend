@@ -1,9 +1,21 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
-import "semantic-ui-css/semantic.min.css";
+import { ThemeProvider } from "theme-ui";
+import { Box } from "rebass";
+import preset from "@rebass/preset";
 
 ReactDOM.render(
-  <App endpoint="http://localhost:8080" />,
+  <ThemeProvider theme={preset}>
+    <Box
+      sx={{
+        maxWidth: 768,
+        mx: "auto",
+        px: 3
+      }}
+    >
+      <App endpoint="http://localhost:8080" />
+    </Box>
+  </ThemeProvider>,
   document.getElementById("root")
 );

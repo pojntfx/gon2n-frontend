@@ -1,21 +1,11 @@
 import * as React from "react";
-import {
-  Container as ContainerTemplate,
-  Segment,
-  Header
-} from "semantic-ui-react";
 import { SupernodeManagerClient } from "../proto/generated/supernode_grpc_web_pb";
 import {
   SupernodeManagerListArgs,
   SupernodeManaged
 } from "../proto/generated/supernode_pb";
 import { Error } from "grpc-web";
-import styled from "@emotion/styled";
-import Supernode from "./Supernode";
-
-const Container = styled(ContainerTemplate)`
-  padding-top: 1rem !important;
-`;
+import { Heading, Card, Text, Flex, Box } from "rebass";
 
 export default ({ endpoint }: { endpoint: string }) => {
   const client = new SupernodeManagerClient(endpoint);
@@ -37,22 +27,52 @@ export default ({ endpoint }: { endpoint: string }) => {
   }, []);
 
   return (
-    <Container>
-      <Header as="h1">Supernodes</Header>
-      {error && (
-        <Segment inverted color="red">
-          {error.message}
-        </Segment>
-      )}
+    <>
+      <Heading sx={{ my: 3 }}>Supernodes</Heading>
+
       {supernodes &&
         supernodes.map((supernode, index) => (
           <Supernode
-            id={supernode.getId()}
             listenPort={supernode.getListenport()}
             managementPort={supernode.getManagementport()}
             key={index}
           />
         ))}
-    </Container>
+    </>
   );
 };
+
+const Supernode = ({
+  listenPort,
+  managementPort,
+  ...otherProps
+}: {
+  listenPort: number;
+  managementPort: number;
+}) => (
+  <Card {...otherProps}>
+    <Box
+      sx={{
+        display: "grid",
+        gridGap: 3,
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))"
+      }}
+    >
+      <Box width={1} p={3}>
+        <Statistic title="Listen Port" content={listenPort} />
+      </Box>
+      <Box width={1} p={3}>
+        <Statistic title="Management Port" content={managementPort} />
+      </Box>
+    </Box>
+  </Card>
+);
+
+const Statistic = ({ title, content }: { title: string; content: any }) => (
+  <Flex flexDirection="column" justifyContent="center" alignItems="center">
+    <Text fontWeight="bold" fontSize={[6]}>
+      {content}
+    </Text>
+    <Text sx={{ textTransform: "uppercase" }}>{title}</Text>
+  </Flex>
+);
